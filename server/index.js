@@ -33,6 +33,9 @@ app.get('/', (req, res) => {
   res.send('来自班级看板后端的问候！');
 });
 
+const authRoutes = require('./routes/auth');
+app.use('/api/auth', authRoutes);
+
 // 6. 启动服务器
 app.listen(port, () => {
   console.log(`服务器正在 http://localhost:${port} 上运行`);
