@@ -1,6 +1,8 @@
 // server/controllers/postController.js
 const Post = require('../models/Post');
 const User = require('../models/User'); // 导入User，可能用于populate
+const Comment = require('../models/Comment');
+
 
 // 1. 创建一个新帖子 (受保护的)
 exports.createPost = async (req, res) => {
@@ -41,4 +43,31 @@ exports.getAllPosts = async (req, res) => {
     console.error(error.message);
     res.status(500).json({ message: '服务器内部错误' });
   }
+};
+
+exports.getPostById = async (req, res) => {
+    try{
+        const postId = req.params.id;
+        const post = await Post.findById(postId)
+
+        if(!post){
+            return res.status(404).json({message: '帖子不存在'});
+        }
+        
+        const comments = await Comment.find({post: postId})
+        .populate('author', 'name')
+        .sort({createdAt: 'asc'});
+
+        res.status(200).json({
+            post: post,
+            comments: comments
+        });
+
+    }catch(error){
+        console.error(error.message);
+        if(error.kind === 'ObjectId'){
+            return res.status(404).json({message: '帖子不存在'});
+        }
+        res.status(500).json({ message: '服务器内部错误' });
+    }
 };
