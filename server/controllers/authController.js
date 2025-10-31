@@ -1,6 +1,8 @@
 // server/controllers/authController.js
 const User = require('../models/User'); // 导入User模型
 const bcrypt = require('bcryptjs');
+const jwt = require('jsonwebtoken');
+
 
 exports.register = async (req, res) => {
   try {
@@ -42,5 +44,51 @@ exports.register = async (req, res) => {
     console.error('注册失败:', error);
     // 500 Internal Server Error
     res.status(500).json({ message: '服务器内部错误' });
+  }
+};
+
+exports.login = async(req, res) => {
+  try {
+    const{email, password} = req.body;
+
+
+    const user = await User.findOne({email: email.toLowerCase()}).select('+password');
+    if(!user){
+      return res.status(400).json({message: '无效的邮箱或密码'});
+    }
+
+    const isMatch = await bcrypt.compare(password, user.password);
+    if(!isMatch){
+      return res.status(400).json({message: '无效的邮箱或密码'});
+    }
+
+    const payload = {
+      user:{
+        id: user._id,
+        role: user.role
+      }
+    };
+
+    jwt.sign(
+      payload,
+      process.env.JWT_SECRET,
+      {expiresIn: '1d'},
+      (err, token) => {
+        if(err) throw err;
+        res.status(200).json({
+          massage: '登录成功',
+          token: token,
+          user:{
+            id: user._id,
+            email: user.email,
+            name: user.name,
+          }
+        });
+      }
+    );
+
+  }catch(error){
+    console.error('登录失败:', error);
+    res.status(500).json({message: '服务器内部错误'});
   }
 };
