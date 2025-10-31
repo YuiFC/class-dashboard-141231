@@ -36,8 +36,11 @@ app.get('/', (req, res) => {
 const authRoutes = require('./routes/auth');
 app.use('/api/auth', authRoutes);
 
-const userRoutes = require('./routes/user');
-app.use('/api/user', userRoutes);
+const userRoutes = require('./routes/users');
+app.use('/api/users', userRoutes);
+
+const postRoutes = require('./routes/posts');
+app.use('/api/posts', postRoutes);
 
 
 // 6. 启动服务器
