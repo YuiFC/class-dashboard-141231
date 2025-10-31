@@ -49,9 +49,10 @@ exports.register = async (req, res) => {
 
 exports.login = async(req, res) => {
   try {
+    //请求email和password
     const{email, password} = req.body;
 
-
+    //检查用户是否存在
     const user = await User.findOne({email: email.toLowerCase()}).select('+password');
     if(!user){
       return res.status(400).json({message: '无效的邮箱或密码'});

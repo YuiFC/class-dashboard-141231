@@ -36,6 +36,10 @@ app.get('/', (req, res) => {
 const authRoutes = require('./routes/auth');
 app.use('/api/auth', authRoutes);
 
+const userRoutes = require('./routes/user');
+app.use('/api/user', userRoutes);
+
+
 // 6. 启动服务器
 app.listen(port, () => {
   console.log(`服务器正在 http://localhost:${port} 上运行`);
