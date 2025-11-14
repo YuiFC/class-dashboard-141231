@@ -42,6 +42,9 @@ app.use('/api/users', userRoutes);
 const postRoutes = require('./routes/posts');
 app.use('/api/posts', postRoutes);
 
+const eventRoutes = require('./routes/events');
+app.use('/api/events', eventRoutes);
+
 
 // 6. 启动服务器
 app.listen(port, () => {
