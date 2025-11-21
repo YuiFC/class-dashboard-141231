@@ -45,6 +45,9 @@ app.use('/api/posts', postRoutes);
 const eventRoutes = require('./routes/events');
 app.use('/api/events', eventRoutes);
 
+const chatRouts = require('./routes/chat');
+app.use('/api/chat', chatRouts);
+
 
 // 6. 启动服务器
 app.listen(port, () => {
