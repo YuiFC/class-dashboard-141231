@@ -35,6 +35,12 @@ const router = createRouter({
           name: 'forum',
           component: () => import('../views/ForumView.vue')
         },
+        // 【新代码：添加详情页路由】
+        {
+           path: 'forum/:id', // :id 是动态参数
+          name: 'post-detail',
+          component: () => import('../views/PostDetailView.vue')
+        },
         {
           path: 'events', // 路径是 /dashboard/events
           name: 'events',

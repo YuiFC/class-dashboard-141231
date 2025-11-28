@@ -5,7 +5,7 @@ import axios from 'axios';
 const service = axios.create({
   // 这里的地址必须和你后端运行的地址一致
   baseURL: 'http://localhost:3001/api',
-  timeout: 5000 // 请求超时时间
+  timeout: 60000 // 请求超时时间
 });
 
 // 2. 请求拦截器 (Request Interceptor)
